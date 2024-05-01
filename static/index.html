@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+    <link rel="manifest" href="../asite.webmanifest">
+</head>
+
+<body>
+    <h1>Guessing Game</h1>
+    <form id="guessForm">
+        <label for="guessInput">Enter your guess (0-99):</label>
+        <input type="number" id="guessInput" name="guess" min="0" max="99" required>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="snackbar"></div>
+    <script>
+        const guessForm = document.getElementById('guessForm');
+        const snackbar = document.getElementById('snackbar');
+
+        guessForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const guessInput = document.getElementById('guessInput').value;
+            const response = await fetch('/guess?guess=' + guessInput);
+            const message = await response.text();
+            snackbar.textContent = message;
+            snackbar.className = 'show';
+            setTimeout(() => { snackbar.className = snackbar.className.replace('show', ''); }, 3000);
+        });
+    </script>
+</body>
+
+</html>
